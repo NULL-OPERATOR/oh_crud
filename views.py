@@ -8,7 +8,7 @@ def index():
     if not github.authorized:
         return redirect(url_for("github.login"))
     response = github.get("/user")
-    assert resp.ok
+    assert response.ok
     id = response.json()['id']
 
     return render_template('profile.html')
