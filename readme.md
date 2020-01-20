@@ -10,3 +10,9 @@ virtualenv env
 source env/bin/activate
 pip install -r requirements.txt
 ```
+
+
+
+setup app    
+
+https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/
