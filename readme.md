@@ -11,9 +11,14 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-follow this guide to setup your github ouath app    
+follow this guide to setup your github ouath app
+
+and set   
+Homepage URL = http://127.0.0.1:5000/    
+Authorization callback URL = http://127.0.0.1:5000/login/github/authorized  
 
 https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/
+
 
 update these in example_config.py
 ```
