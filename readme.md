@@ -16,3 +16,11 @@ pip install -r requirements.txt
 setup app    
 
 https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/
+
+
+export OAUTHLIB_INSECURE_TRANSPORT=1
+
+flask db init
+
+flask db migrate
+flask db upgrade
