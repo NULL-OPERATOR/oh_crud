@@ -1,11 +1,11 @@
-## crud
+## oh crud
 quick Github OAuth CRUD
 
 
 ### install steps
 ```
-git clone https://github.com/NULL-OPERATOR/crud.git
-cd crud
+git clone https://github.com/NULL-OPERATOR/oh_crud.git
+cd oh_crud
 virtualenv env
 source env/bin/activate
 pip install -r requirements.txt

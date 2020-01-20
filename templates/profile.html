@@ -3,8 +3,23 @@
 {% block content %}
 <div class="container col-sm-6">
   <h5 class="mt-5 mb-3">Profile</h5>
+
+  {% if profile %}
+  <form method="POST" action="/profile/update">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name" value="{{profile.name or ''}}" class="form-control" placeholder="Name" name="name">
+    </div>
+    <input type="hidden" value="{{profile.id}}" name="id">
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+  {% else %}
+
   <form method="POST" action="/profile">
+    <input type="hidden" value="{{user_id}}" name="user_id">
     <button type="submit" class="btn btn-success">Create Profile</button>
   </form>
+  {% endif %}
+
 </div>
 {% endblock %}

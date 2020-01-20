@@ -6,10 +6,10 @@ from app import app, db, app_path
 from models import User, Profile
 
 
-def create_test_profile():
-    profile = Profile(user_id=1)
-    db.session.add(profile)
-    db.session.commit()
+# def create_test_profile():
+#     profile = Profile(user_id=1)
+#     db.session.add(profile)
+#     db.session.commit()
 
 
 @patch("views.get_github_userid", MagicMock(return_value=10))
@@ -38,6 +38,30 @@ class TestCrudApp(unittest.TestCase):
         user = User.query.first()
         self.assertIsNotNone(user)
         self.assertTrue(user.github_id, 10)
+
+    def test_shows_correct_html_when_no_user_profile_created(self):
+        html = str(self.app.get('/').data)
+        #probably a better way to check
+        self.assertTrue('Create Profile' in html)
+        self.assertTrue('id="name"' not in html)
+
+    def test_can_create_a_profile(self):
+        profiles = Profile.query.all()
+        self.assertEqual(len(profiles), 0)
+
+        response = self.app.post('/profile', data={'user_id':1})
+        profiles = Profile.query.all()
+        self.assertEqual(len(profiles), 1)
+
+    def test_shows_profile_when_user_has_one(self):
+        response = self.app.get('/')
+        print(response)
+        profile = Profile(user_id=1)
+        db.session.add(profile)
+        db.session.commit()
+        html = str(self.app.get('/').data)
+        self.assertTrue('Create Profile' not in html)
+        self.assertTrue('id="name"' in html)
 
 
 if __name__ == '__main__':
