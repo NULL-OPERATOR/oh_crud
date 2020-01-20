@@ -6,10 +6,10 @@ from app import app, db, app_path
 from models import User, Profile
 
 
-# def create_test_profile():
-#     profile = Profile(user_id=1)
-#     db.session.add(profile)
-#     db.session.commit()
+def create_test_profile():
+    profile = Profile(user_id=1)
+    db.session.add(profile)
+    db.session.commit()
 
 
 @patch("views.get_github_userid", MagicMock(return_value=10))
@@ -55,13 +55,34 @@ class TestCrudApp(unittest.TestCase):
 
     def test_shows_profile_when_user_has_one(self):
         response = self.app.get('/')
-        print(response)
-        profile = Profile(user_id=1)
-        db.session.add(profile)
-        db.session.commit()
+        create_test_profile()
         html = str(self.app.get('/').data)
         self.assertTrue('Create Profile' not in html)
         self.assertTrue('id="name"' in html)
+
+    def test_can_delete_profile(self):
+        response = self.app.get('/')
+        create_test_profile()
+        profiles = Profile.query.all()
+        self.assertEqual(len(profiles), 1)
+
+        response = self.app.post('/profile/delete', data={'id': 1})
+        profiles = Profile.query.all()
+        self.assertEqual(len(profiles), 0)
+
+    def test_can_update_profile(self):
+        response = self.app.get('/')
+        create_test_profile()
+        profile = Profile.query.first()
+        self.assertIsNone(profile.name)
+
+        data = {
+            'id': 1,
+            'name': 'aha'
+        }
+        response = self.app.post('/profile/update', data=data)
+        profile = Profile.query.first()
+        self.assertEqual(profile.name, data['name'])
 
 
 if __name__ == '__main__':
